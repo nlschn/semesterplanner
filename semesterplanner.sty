@@ -1,0 +1,171 @@
+% (c) Niklas Schneider
+%
+%% This program can be redistributed and/or modified under the terms
+%% of the LaTeX Project Public License Distributed from CTAN archives
+%% in directory macros/latex/base/lppl.txt.
+
+
+\NeedsTeXFormat{LaTeX2e}[1994/06/01]
+\ProvidesPackage{semesterplanner} [2011/01/11 v0.01 LaTeX package for my own purpose]
+
+% Required Packages.
+\RequirePackage{fontawesome}
+\RequirePackage{color}
+\RequirePackage{schedule}
+\RequirePackage{tikz}
+\usetikzlibrary{shapes}
+
+% Command to encircle the fa-icons with white, so that they are recognizable on colored ground.
+\newcommand*{\encircle}[1]{
+	\begin{minipage}[b][1em][c]{1.5em}
+		\begin{tikzpicture}
+			\node[fill,circle,inner sep=1pt, color = white] {#1};
+		\end{tikzpicture}	
+	\end{minipage}    
+}
+
+% Color for the platform symbols.
+\definecolor{dodgerblue}{rgb}{0.12, 0.56, 1.0}
+
+% Colors for the course types.
+\definecolor{seminar}{rgb}{1.0, 0.8, 0.0}
+\definecolor{lecture}{rgb}{0.2, 0.7, 1.0}
+\definecolor{tutorial}{rgb}{0.0, 0.8, 0.0}
+\definecolor{meeting}{rgb}{0.8, 0.0, 0.0}
+\definecolor{officehour}{rgb}{0.0, 0.4, 0.6}
+
+% The different course types.
+\NewAppointment{emeeting}{meeting}{white}
+\NewAppointment{electure}{lecture}{white}
+\NewAppointment{etutorial}{tutorial}{white}
+\NewAppointment{eseminar}{seminar}{white}
+\NewAppointment{eofficehour}{officehour}{white}
+
+% Commands to create a new entry in the timetable using the aboev types.
+\newcommand{\lecture}[6]{\electure{\textbf{#1}}{
+		\vspace*{-2.5em}
+		\begin{flushleft}
+				{#2}\\\vspace*{0.75em}{#6}{#3}
+		\end{flushleft}}
+	{#4}{#5}}
+\newcommand{\tutorial}[6]{\etutorial{\textbf{#1}}{
+		\vspace*{-2.5em}
+		\begin{flushleft}
+			{#2}\\\vspace*{0.75em}{#6}{#3}
+	\end{flushleft}}
+	{#4}{#5}}
+\newcommand{\meeting}[6]{\emeeting{\textbf{#1}}{
+		\vspace*{-2.5em}
+		\begin{flushleft}
+			{#2}\\\vspace*{0.75em}{#6}{#3}
+	\end{flushleft}}
+	{#4}{#5}}
+\newcommand{\seminar}[6]{\eseminar{\textbf{#1}}{
+		\vspace*{-2.5em}
+		\begin{flushleft}
+			{#2}\\\vspace*{0.75em}{#6}{#3}
+	\end{flushleft}}
+	{#4}{#5}}
+\newcommand{\officehour}[6]{\eofficehour{\textbf{#1}}{
+		\vspace*{-2.5em}
+		\begin{flushleft}
+			{#2}\\\vspace*{0.75em}{#6}{#3}
+	\end{flushleft}}
+	{#4}{#5}}
+
+% Commands for entries in the three environments. They are a line of a table.
+\newcommand{\appointment}[6]{\textit{#1}&{#2}&{#3}&{#4}&{#5}&{#6}\\}
+\newcommand{\exam}[4]{\textit{#1}&{#2}&{#3}&{#4}\\}
+\newcommand{\deadline}[4]{\textit{#1}&{#2}&{#3}&{#4}\\}
+
+% Commands for symbols of priority
+\newcommand{\pmandatory}{\encircle{\textcolor{red}{\faWarning}}}
+\newcommand{\phigh}{\encircle{\textcolor{red}{\faFlag}}}
+\newcommand{\pmid}{\encircle{\textcolor{yellow}{\faFlag}}}
+\newcommand{\plow}{\encircle{\textcolor{green}{\faFlag}}}
+\newcommand{\pnone}{\encircle{\textcolor{gray}{\faTimesCircle}}}
+
+% Commands for exam types.
+\newcommand{\oral}{\faComment}
+\newcommand{\written}{\faPencil}
+
+% Commands for online platforms.
+\newcommand{\teams}{\encircle{\textcolor{dodgerblue}{\faWindows}}}
+\newcommand{\zoom}{\encircle{\textcolor{dodgerblue}{\faCamera}}}
+
+% Command for "To be determined" and "To be Announced"
+\newcommand{\tbd}{\faQuestion}
+\newcommand{\tba}{\faBullhorn}
+
+% Command for adding legends to timetable
+\newcommand{\ttlegend}[2]{{\footnotesize\textcolor{#1}{\faSquare}}&{\footnotesize {#2}}\\}
+
+% Environment for the timetable using schedule. Configuration is hardcoded.
+\newenvironment{timetable}
+		{			
+			\section*{\faClockO~Timetable}		
+			\vspace*{-2em}	
+			\CellHeight{1.3cm}
+			\CellWidth{1in}
+			\TimeRange{08:00-18:00}
+			\SubUnits{60}
+			\BeginOn{Monday}
+			\TextSize{\tiny}
+			\FiveDay
+			\TwentyFourHour	
+			
+			\begin{schedule}
+				
+		}
+		{
+			\end{schedule}
+			\vspace*{-1em}
+		}
+
+% Environment for appointment list. Use appointment command to add one.
+% Argument is for caption of the "room" column.
+\newenvironment{appointments}[1][Room]
+{	
+	\section*{\faCalendar~Appointments}
+	\begin{tabular}{llllll}
+		\textbf{Date}&\textbf{Time}&\textbf{Course}&\textbf{Description}&\textbf{{#1}}&\textbf{Prio.}\\		
+	}
+	{\end{tabular}
+}
+
+% Environment for deadline list. Use dealine command to add one.
+\newenvironment{deadlines}
+{	
+	\section*{\faBomb~Deadlines}
+	\begin{tabular}{llll}		
+		\textbf{Date}&\textbf{Course}&\textbf{Description}&\textbf{Prio.}\\		
+	}
+	{\end{tabular}
+}
+
+% Environment for exam list. Use exam command to add one.
+\newenvironment{exams}
+{	
+	\section*{\faStickyNoteO~Exams}
+	\begin{tabular}{llll}
+		\textbf{Date}&\textbf{Time}&\textbf{Course}&\textbf{Type}\\
+	}
+	{\end{tabular}
+}
+
+% Environment for timetable legend. Use \ttlabel command.
+\newenvironment{legend}
+	{		
+		\begin{center}
+			\begin{tabular}{ll}
+	}	
+	{		
+			\end{tabular}
+		\end{center}			
+	}	
+
+
+
+
+\endinput
+%%
