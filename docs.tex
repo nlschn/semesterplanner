@@ -1,0 +1,270 @@
+\documentclass{article}
+
+\usepackage[left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm]{geometry}
+\usepackage{hyperref}
+\usepackage{csquotes}
+\usepackage{semesterplanner}
+\usepackage{listings}
+
+\newcommand{\cmd}[1]{$\backslash$\texttt{{#1}}}
+
+
+\title{The \texttt{semesterplanner}-Package}
+\author{Niklas Schneider}
+
+\begin{document}
+	\maketitle
+	\begin{center}
+		Version 1.0\\
+	\end{center}
+
+	\begin{abstract}
+		This package encapsules several useful environments for a printable semester plan. It includes a timetable (which is using the \texttt{schedule}-Package) as well as appointments, deadlines and exams.
+		
+		While creating my own plan I thought that it could come handy for somebody else, so I extracted the code into a \LaTeX-package.
+		
+		This package requires \texttt{color}, \texttt{tikz}, \texttt{schedule} and \texttt{fontawesome}.
+	\end{abstract}
+
+	\tableofcontents
+	\pagebreak
+	
+	\section{Environments}
+	\subsection{Timetable}
+	\label{timetable}
+	\subsubsection{Usage}
+	With the \texttt{timetable}-environment you can create a timetable based on the \texttt{schedule}-package.
+	Inside you use the following commands, each of which take the same range of arguments:
+	\begin{center}
+		\cmd{lecture}, \cmd{seminar}, \cmd{meeting}, \cmd{officehour}, \cmd{tutorial}
+	\end{center}
+	The syntax is as follows:
+	\begin{center}
+		\cmd{lecture} \texttt{\{Course name\} \{Lecturer\} \{Room\} \{Day\} \{Time\} \{Priority\}}
+	\end{center}
+	\begin{itemize}
+		\item \texttt{Course name}.
+		The name of the course.
+		
+		\item \texttt{Lecturer}.
+		The name of the lecturer.
+		
+		\item \texttt{Room}.
+		The room, where the course takes place. As this package was created during a time, where courses were held online, you can also insert commands for online platforms. See \hyperref[online]{$\rightarrow$ Online Platforms}.
+		
+		\item \texttt{Day}.
+		The day when the course takes place. Must be exactly \texttt{M, T, W, Th, F}.
+		
+		\item \texttt{Time}.
+		The time when the course takes place. Must be exactly in the format \texttt{hh:mm-hh:mm}.
+		
+		\item \texttt{Priority}.
+		The priority of the course. See \hyperref[priority]{$\rightarrow$ Priority}.
+	\end{itemize}
+	\subsubsection{Change colors}
+	If you want to change the colors of the panels, you can simply redefine them with \cmd{definecolor}. The name of the color matches the name of the command of which you want to change the color. For example:
+	\begin{center}
+		\cmd{definecolor \{lecture\} \{rgb\} \{0, 0, 0\}}
+	\end{center}
+	makes all panels of lectures black.
+	
+	\subsection{Legend}
+	\label{legend}	
+	Inside the \texttt{legend}-environment you can use the \cmd{ttlegend}-command to add a legend entry for your timetable. The syntax is as follows:
+	\begin{center}
+		\cmd{ttlegend \{Color\} \{Description\}}
+	\end{center}
+	\begin{itemize}
+		\item \texttt{Color}.
+		The color the legend entry belongs to.
+		
+		\item \texttt{Description}.
+		Self-explaining.			
+	\end{itemize}
+	
+	
+	\subsection{Appointments}
+	\label{appointments}
+	\subsubsection{Usage}
+	Inside the \texttt{appointments}-environment you can use the \cmd{appointment}-command to add an appointment to the list. The syntax is as follows:
+	\begin{center}
+		\cmd{appointment \{Date\} \{Time\} \{Course\} \{Description\} \{Room/Platform\} \{Priority\}}
+	\end{center}
+	\begin{itemize}
+		\item \texttt{Date}, \texttt{Time}.
+		When the appointment is scheduled. The two arguments do not need to follow a specific format.
+		
+		\item \texttt{Course}.
+		The course the appointment belongs to.
+					
+		\item \texttt{Description}.
+		A short description of the appointment
+		
+		\item \texttt{Room/Platform}.
+		Where the appointment is scheduled. You can also insert an online-platform-command here (see \hyperref[online]{$\rightarrow$ Online Platforms}). 
+			
+		\item \texttt{Priority}.
+		The priority of the apponintment. See \hyperref[priority]{$\rightarrow$ Priority}.
+	\end{itemize}
+	
+	Note that \cmd{appointment} only works in the appropriate environment.
+	
+	\subsubsection{Arguments}
+	This environment takes one optional arguemnt, namely the title of the \enquote{room}-column. If nothing is else set, it will be \enquote{Room}.
+
+	\subsection{Deadlines}
+	\label{deadlines}
+	This environment is similar to the \texttt{appointment}-environment. Inside, you can use the \cmd{deadline}-command to add deadlines to the list.
+	\begin{center}
+		\cmd{deadline \{Date\} \{Course\} \{Description\} \{Priority\}}
+	\end{center}
+	
+
+
+	\subsection{Exams}
+	\label{Exams}
+	This environment is similar to two above. Inside, you can use the \cmd{exam}-command to add exams to the list.
+	\begin{center}
+		\cmd{exam \{Date\} \{Time\} \{Course\} \{Type\}}
+	\end{center}
+	\begin{itemize}
+		\item \texttt{Date}, \texttt{Time}, \texttt{Course}.
+		As before.
+		
+		\item \texttt{Type}.
+		The type of the exam. See \hyperref[examtypes]{$\rightarrow$ Exam Types}.
+	\end{itemize}
+
+
+	\pagebreak
+	\section{User Commands}
+	Most of the following commands make use of the \texttt{fontawesome}-package.
+	\subsection{Priority}
+	\label{priority}
+	
+	There are 5 different types of priority you can display with this package:
+	\begin{center}
+		\begin{tabular}{lll}
+			No priority&\cmd{pnone}&\pnone\\
+			Low priority&\cmd{plow}&\plow\\
+			Medium priority&\cmd{pmid}&\pmid\\
+			High priority&\cmd{phigh}&\phigh\\
+			Mandatory&\cmd{pmandatory}&\pmandatory\\
+		\end{tabular}
+	\end{center}
+	They are theoretically usable everywhere, but primarily intended for the usage in the \texttt{appointments}- and \texttt{timetable}-environments. 
+
+	
+	\subsection{Online Platforms}
+	\label{online}
+	At the moment there are 3 different types of online platform you can display with this package:
+	\begin{center}
+		\begin{tabular}{lll}
+			Microsoft Teams&\cmd{teams}&\teams\\
+			Zoom&\cmd{zoom}&\zoom\\
+			Youtube&\cmd{youtube}&\youtube\\
+		\end{tabular}
+	\end{center}
+	There will likely be more to be added. Alternatively you can write out the platform you wish.
+	
+	\subsection{Exam Types}
+	\label{examtypes}
+	At the moment there are 2 different types exam types you can display with this package:
+	\begin{center}
+		\begin{tabular}{lll}
+			Written exam&\cmd{written}&\written\\
+			Oral exam&\cmd{oral}&\oral\\
+		\end{tabular}
+	\end{center}
+
+	\subsection{Misc}
+	\label{misc}
+	There are other little helpful commands you can use as you wish.
+	\begin{center}
+		\begin{tabular}{lll}
+			To be announced&\cmd{tba}&\tba\\
+			To be determined&\cmd{tbd}&\tbd\\
+		\end{tabular}
+	\end{center}
+
+	\pagebreak
+	\section{Examples}
+	\subsection{Timetable}
+	\begin{lstlisting}[language=]
+\begin{timetable}			
+ \lecture    {Software\\Engineering} {-}    {\zoom}  {M}  {08:30-10:00} {\phigh}		
+ \tutorial   {Numerik I}             {\tbd} {\teams} {M}  {16:15-17:45} {\pmid}
+ \officehour {Software\\Engineering} {-}    {\zoom}  {T}  {08:30-10:00} {\phigh}	
+ \lecture    {Numerik I}             {-}    {\teams} {T}  {10:15-11:45} {\pmid}	
+ \meeting    {Tutor Meeting}         {-}    {\teams} {T}  {14:00-15:00} {\phigh}	
+ \lecture    {Numerik I}             {-}    {\teams} {Th} {14:15-15:45} {\pmid}	
+ \tutorial   {MfN I}                 {-}    {\teams} {F}  {10:15-11:45} {}
+ \seminar    {Machine Learning}      {-}    {\zoom}  {F}  {12:15-13:45} {\pmandatory}	
+\end{timetable}		
+	\end{lstlisting}	
+	\begin{timetable}			
+		\lecture	{Software\\Engineering}				{-}		{\teams}			{M}	{08:30-10:00}	{\phigh}		
+		\tutorial	{Numerik I}							{\tbd}	{\teams}			{M}	{16:15-17:45}	{\pmid}
+		\officehour	{Software\\Engineering}				{-}		{\teams}			{T}	{08:30-10:00}	{\phigh}	
+		\lecture	{Numerik I}							{-}		{\teams}			{T}	{10:15-11:45}	{\pmid}	
+		\meeting	{Tutor Meeting}						{-}		{\teams}			{T}	{14:00-15:00}	{\phigh}	
+		\lecture	{Numerik I}							{-}		{\teams}			{Th}{14:15-15:45}	{\pmid}	
+		\tutorial	{MfN I}								{-}		{\teams}			{F}	{10:15-11:45}	{}
+		\seminar	{Machine Learning}					{-}		{\teams}			{F}	{12:15-13:45}	{\pmandatory}	
+	\end{timetable}
+	
+	\pagebreak
+	\subsection{Legend}
+	\begin{lstlisting}[language=]
+\begin{legend}
+ \ttlegend {lecture}    {Lecture}
+ \ttlegend {tutorial}   {Tutorial}
+ \ttlegend {meeting}    {Meeting}
+ \ttlegend {seminar}    {Seminar}
+ \ttlegend {officehour} {Office Hour}
+\end{legend}		
+	\end{lstlisting}
+	\begin{legend}
+		\ttlegend{lecture}{Lecture}
+		\ttlegend{tutorial}{Tutorial}
+		\ttlegend{meeting}{Meeting}
+		\ttlegend{seminar}{Seminar}
+		\ttlegend{officehour}{Office Hour}
+	\end{legend}
+	
+	
+	\subsection{Appointments}
+	\begin{lstlisting}[language=]
+\begin{appointments}[Platf.]		
+ \appointment {09.11.2020} {10:15 - 11:45} {Seminar} {Kickoff-Meeting} {\teams} 
+       {\pmandatory} 
+\end{appointments}
+	\end{lstlisting}
+	\begin{appointments}[Platf.]		
+		\appointment{09.11.2020}{10:15 - 11:45}{Seminar}{Kickoff-Meeting}{\teams}{\pmandatory}	
+	\end{appointments}
+
+
+	\subsection{Deadlines}
+	\begin{lstlisting}[language=]
+\begin{deadlines}
+ \deadline {01.01.2021} {Seminar} {Hand in write-up} {\phigh}
+\end{deadlines}
+	\end{lstlisting}
+	\begin{deadlines}
+		\deadline{01.01.2021}{Seminar}{Hand in write-up}{\phigh}
+	\end{deadlines}
+
+	\subsection{Exams}
+	\begin{lstlisting}[language=]
+\begin{exams}
+ \exam {04.03.2021} {09:00 - 12:00} {Analysis I} {\written}
+ \exam {20.03.2021} {14:00 - 14:30} {ICL}        {\oral}
+\end{exams}
+	\end{lstlisting}
+	\begin{exams}
+		\exam{04.03.2021}{09:00 - 12:00}{Analysis I}{\written}
+		\exam{20.03.2021}{14:00 - 14:30}{ICL}{\oral}
+	\end{exams}
+
+\end{document}
