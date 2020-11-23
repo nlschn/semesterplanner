@@ -3,16 +3,17 @@
 \usepackage[left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm]{geometry}
 \usepackage{hyperref}
 \usepackage{csquotes}
-\usepackage{semesterplanner}
+\usepackage{semesterplanner_edit}
 \usepackage{listings}
-
+\usepackage{ifthen}
 \newcommand{\cmd}[1]{$\backslash$\texttt{{#1}}}
 
 
 \title{The \texttt{semesterplanner}-Package}
 \author{Niklas Schneider}
 
-\begin{document}
+
+\begin{document}	
 	\maketitle
 	\begin{center}
 		Version 1.0\\
@@ -106,11 +107,12 @@
 		\item \texttt{Priority}.
 		The priority of the apponintment. See \hyperref[priority]{$\rightarrow$ Priority}.
 	\end{itemize}
+
 	
 	Note that \cmd{appointment} only works in the appropriate environment.
 	
 	\subsubsection{Arguments}
-	This environment takes one optional arguemnt, namely the title of the \enquote{room}-column. If nothing is else set, it will be \enquote{Room}.
+	This environment takes two arguments, namely the type of checkbox (see \hyperref[checkboxes]{$\rightarrow$ Checkboxes}) and optionally the title of the \enquote{room}-column. If nothing is set for the last one, it will be \enquote{Room}.
 
 	\subsection{Deadlines}
 	\label{deadlines}
@@ -118,7 +120,7 @@
 	\begin{center}
 		\cmd{deadline \{Date\} \{Course\} \{Description\} \{Priority\}}
 	\end{center}
-	
+	It also has the mandatory checkbox-type argument (see \hyperref[checkboxes]{$\rightarrow$ Checkboxes}).
 
 
 	\subsection{Exams}
@@ -134,7 +136,23 @@
 		\item \texttt{Type}.
 		The type of the exam. See \hyperref[examtypes]{$\rightarrow$ Exam Types}.
 	\end{itemize}
+	It also has the mandatory checkbox-type argument (see \hyperref[checkboxes]{$\rightarrow$ Checkboxes}).
 
+	\subsection{Checkboxes}
+	\label{checkboxes}
+	You can add two kind of checkboxes to your lists. 
+	\begin{itemize}
+		\item 
+		\cmd{none} does not show any checkboxes for items in that environment (instead of \cmd{none}) you can actually write everything except for the following two keywords).
+		
+		\item
+		\cmd{print} creates squares you can tick on a printed version of your document: \checkbox{\printcheckboxcmd}
+		
+		\item
+		\cmd{click} creates clickable form checkboxes: \checkbox{\clickcheckboxcmd}
+		
+		
+	\end{itemize}
 
 	\pagebreak
 	\section{User Commands}
@@ -235,34 +253,34 @@
 	
 	\subsection{Appointments}
 	\begin{lstlisting}[language=]
-\begin{appointments}[Platf.]		
+\begin{appointments}[Platf.]{none}	
  \appointment {09.11.2020} {10:15 - 11:45} {Seminar} {Kickoff-Meeting} {\teams} 
        {\pmandatory} 
 \end{appointments}
 	\end{lstlisting}
-	\begin{appointments}[Platf.]		
+	\begin{appointments}[Platf.]{none}	
 		\appointment{09.11.2020}{10:15 - 11:45}{Seminar}{Kickoff-Meeting}{\teams}{\pmandatory}	
 	\end{appointments}
 
 
 	\subsection{Deadlines}
 	\begin{lstlisting}[language=]
-\begin{deadlines}
+\begin{deadlines}{print}
  \deadline {01.01.2021} {Seminar} {Hand in write-up} {\phigh}
 \end{deadlines}
 	\end{lstlisting}
-	\begin{deadlines}
+	\begin{deadlines}{print}
 		\deadline{01.01.2021}{Seminar}{Hand in write-up}{\phigh}
 	\end{deadlines}
 
 	\subsection{Exams}
 	\begin{lstlisting}[language=]
-\begin{exams}
+\begin{exams}{click}
  \exam {04.03.2021} {09:00 - 12:00} {Analysis I} {\written}
  \exam {20.03.2021} {14:00 - 14:30} {ICL}        {\oral}
 \end{exams}
 	\end{lstlisting}
-	\begin{exams}
+	\begin{exams}{click}
 		\exam{04.03.2021}{09:00 - 12:00}{Analysis I}{\written}
 		\exam{20.03.2021}{14:00 - 14:30}{ICL}{\oral}
 	\end{exams}

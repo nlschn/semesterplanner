@@ -13,6 +13,7 @@
 \RequirePackage{color}
 \RequirePackage{schedule}
 \RequirePackage{tikz}
+\RequirePackage{ifthen}
 \usetikzlibrary{shapes}
 
 % Command to encircle the fa-icons with white, so that they are recognizable on colored ground.
@@ -24,6 +25,51 @@
 	\end{minipage}    
 }
 
+
+
+%%%%% CHECKBOXES
+% Creates a clickable checkbox with unique index, so that it is independent of all other checkboxes 
+% (important for some pdf viewers).
+\newcommand{\plaincheckbox}[1]{	
+	$ $\begin{Form}[action={}]\CheckBox[width=0.4cm,height=0.3cm,name=#1]{}\end{Form}$\!$	
+}
+
+\newcommand{\printcheckboxcmd}{print}
+\newcommand{\clickcheckboxcmd}{click}
+
+\newcounter{checkboxcounter}
+
+\newcommand{\printcheckbox}{\faSquareO}
+\newcommand{\clickcheckbox}{\plaincheckbox{\arabic{checkboxcounter}}  \stepcounter{checkboxcounter}}
+
+\newcommand{\currentcheckbox}{none}
+
+% Creates a checkbox according to the given type.
+\newcommand{\checkbox}[1]{
+	% Check whether the user wants a printable checkbox.
+	\ifthenelse{
+		\equal{#1}{\printcheckboxcmd}
+	}
+	{
+		% If so, set one.
+		\printcheckbox
+	}
+	{
+		% If not, check whether they want a clickable checkbox.
+		\ifthenelse{
+			\equal{#1}{\clickcheckboxcmd}
+		}
+		{
+			\clickcheckbox
+		}
+		{
+			% If none is selected, do nothing
+		}
+	}
+}
+
+
+%%%%% CALENDAR
 % Color for the platform symbols.
 \definecolor{dodgerblue}{rgb}{0.12, 0.56, 1.0}
 
@@ -47,36 +93,36 @@
 		\begin{flushleft}
 				{#2}\\\vspace*{0.75em}{#6}{#3}
 		\end{flushleft}}
-	{#4}{#5}}
+		{#4}{#5}}
 \newcommand{\tutorial}[6]{\etutorial{\textbf{#1}}{
 		\vspace*{-2.5em}
 		\begin{flushleft}
-			{#2}\\\vspace*{0.75em}{#6}{#3}
-	\end{flushleft}}
-	{#4}{#5}}
+				{#2}\\\vspace*{0.75em}{#6}{#3}
+		\end{flushleft}}
+		{#4}{#5}}
 \newcommand{\meeting}[6]{\emeeting{\textbf{#1}}{
 		\vspace*{-2.5em}
 		\begin{flushleft}
-			{#2}\\\vspace*{0.75em}{#6}{#3}
-	\end{flushleft}}
-	{#4}{#5}}
+				{#2}\\\vspace*{0.75em}{#6}{#3}
+		\end{flushleft}}
+		{#4}{#5}}
 \newcommand{\seminar}[6]{\eseminar{\textbf{#1}}{
 		\vspace*{-2.5em}
 		\begin{flushleft}
-			{#2}\\\vspace*{0.75em}{#6}{#3}
-	\end{flushleft}}
-	{#4}{#5}}
+				{#2}\\\vspace*{0.75em}{#6}{#3}
+		\end{flushleft}}
+		{#4}{#5}}
 \newcommand{\officehour}[6]{\eofficehour{\textbf{#1}}{
 		\vspace*{-2.5em}
 		\begin{flushleft}
-			{#2}\\\vspace*{0.75em}{#6}{#3}
-	\end{flushleft}}
-	{#4}{#5}}
+				{#2}\\\vspace*{0.75em}{#6}{#3}
+		\end{flushleft}}
+		{#4}{#5}}
 
 % Commands for entries in the three environments. They are a line of a table.
-\newcommand{\appointment}[6]{\textit{#1}&{#2}&{#3}&{#4}&{#5}&{#6}\\}
-\newcommand{\exam}[4]{\textit{#1}&{#2}&{#3}&{#4}\\}
-\newcommand{\deadline}[4]{\textit{#1}&{#2}&{#3}&{#4}\\}
+\newcommand{\appointment}[6]{\checkbox{\currentcheckbox}&\textit{#1}&{#2}&{#3}&{#4}&{#5}&{#6}\\}
+\newcommand{\exam}[4]{\checkbox{\currentcheckbox}&\textit{#1}&{#2}&{#3}&{#4}\\}
+\newcommand{\deadline}[4]{\checkbox{\currentcheckbox}&\textit{#1}&{#2}&{#3}&{#4}\\}
 
 % Commands for symbols of priority
 \newcommand{\pmandatory}{\encircle{\textcolor{red}{\faWarning}}}
@@ -103,66 +149,107 @@
 
 % Environment for the timetable using schedule. Configuration is hardcoded.
 \newenvironment{timetable}
-		{			
-			\section*{\faClockO~Timetable}		
-			\vspace*{-2em}	
-			\CellHeight{1.3cm}
-			\CellWidth{1in}
-			\TimeRange{08:00-18:00}
-			\SubUnits{60}
-			\BeginOn{Monday}
-			\TextSize{\tiny}
-			\FiveDay
-			\TwentyFourHour	
-			
-			\begin{schedule}
-				
-		}
-		{
-			\end{schedule}
-			\vspace*{-1em}
-		}
+{			
+	\section*{\faClockO~Timetable}		
+	\vspace*{-2em}	
+	\CellHeight{1.3cm}
+	\CellWidth{1in}
+	\TimeRange{08:00-18:00}
+	\SubUnits{60}
+	\BeginOn{Monday}
+	\TextSize{\tiny}
+	\FiveDay
+	\TwentyFourHour	
+	
+	\begin{schedule}
+		
+	}
+	{
+	\end{schedule}
+	\vspace*{-1em}
+}
 
+
+
+
+
+
+
+%%%%% ENVIRONMENTS
 % Environment for appointment list. Use appointment command to add one.
 % Argument is for caption of the "room" column.
-\newenvironment{appointments}[1][Room]
+\newenvironment{appointments}[2][Room]
 {	
 	\section*{\faCalendar~Appointments}
-	\begin{tabular}{llllll}
-		\textbf{Date}&\textbf{Time}&\textbf{Course}&\textbf{Description}&\textbf{{#1}}&\textbf{Prio.}\\		
+	\renewcommand{\currentcheckbox}{#2}	
+	\ifthenelse{\equal{#2}{\printcheckboxcmd} \OR \equal{#2}{\clickcheckboxcmd}}
+	{	
+		\begin{tabular}{cllllll}
+			\faCheckSquare&\textbf{Date}&\textbf{Time}&\textbf{Course}&\textbf{Description}&\textbf{#1}&\textbf{Prio.}\\	
 	}
-	{\end{tabular}
+	{
+		\begin{tabular}{cllllll}
+			&\textbf{Date}&\textbf{Time}&\textbf{Course}&\textbf{Description}&\textbf{#1}&\textbf{Prio.}\\		
+	}	
+}
+{
+	\end{tabular}
 }
 
 % Environment for deadline list. Use dealine command to add one.
-\newenvironment{deadlines}
+\newenvironment{deadlines}[1]
 {	
 	\section*{\faBomb~Deadlines}
-	\begin{tabular}{llll}		
-		\textbf{Date}&\textbf{Course}&\textbf{Description}&\textbf{Prio.}\\		
+	\renewcommand{\currentcheckbox}{#1}	
+	\ifthenelse{\equal{#1}{\printcheckboxcmd} \OR \equal{#1}{\clickcheckboxcmd}}
+	{	
+		\begin{tabular}{cllll}		
+			\faCheckSquare&\textbf{Date}&\textbf{Course}&\textbf{Description}&\textbf{Prio.}\\		
 	}
-	{\end{tabular}
+	{
+		\begin{tabular}{cllll}		
+			&\textbf{Date}&\textbf{Course}&\textbf{Description}&\textbf{Prio.}\\	
+	}
+}	
+{
+	\end{tabular}
 }
 
 % Environment for exam list. Use exam command to add one.
-\newenvironment{exams}
+\newenvironment{exams}[1]
 {	
 	\section*{\faStickyNoteO~Exams}
-	\begin{tabular}{llll}
-		\textbf{Date}&\textbf{Time}&\textbf{Course}&\textbf{Type}\\
+	\renewcommand{\currentcheckbox}{#1}	
+	\ifthenelse{\equal{#1}{\printcheckboxcmd} \OR \equal{#1}{\clickcheckboxcmd}}
+	{
+		\begin{tabular}{cllll}
+			\faCheckSquare&\textbf{Date}&\textbf{Time}&\textbf{Course}&\textbf{Type}\\
 	}
-	{\end{tabular}
+	{
+		\begin{tabular}{cllll}
+			&\textbf{Date}&\textbf{Time}&\textbf{Course}&\textbf{Type}\\
+	}
+}
+{
+	\end{tabular}
 }
 
 % Environment for timetable legend. Use \ttlabel command.
 \newenvironment{legend}
-	{		
-		\begin{center}
-			\begin{tabular}{ll}
-	}	
-	{		
-			\end{tabular}
-		\end{center}			
-	}	
+{		
+	\begin{center}
+		\begin{tabular}{ll}
+}	
+{		
+		\end{tabular}
+	\end{center}			
+}	
 \endinput
+
+
+
+
+
+
+
 %%
