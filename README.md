@@ -8,10 +8,10 @@ This package requires color, tikz, schedule, ifthen and fontawesome. Furthermore
 # Changelog
 
 ### V 2
-+ Customizable checkboxes
+- Add customizable checkboxes
 
 ### V 1
-o Initial
+- Initial
 
 ## Repo and documentation
 See https://github.com/nlschn/semesterplanner
