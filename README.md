@@ -7,10 +7,13 @@ This package requires color, tikz, schedule, ifthen and fontawesome. Furthermore
 
 # Changelog
 
-### V 2
-- Add customizable checkboxes
+### V 1.2
+- Add localization support. At the moment english, french and german are provided, more languages are to come in the near future.
 
-### V 1
+### V 1.1.1
+- Add customizable checkboxes (print, click, none).
+
+### V 1.1
 - Initial
 
 ## Repo and documentation
