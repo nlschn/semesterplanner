@@ -1,11 +1,11 @@
-\documentclass{article}
+\documentclass[english]{article}
 
 \usepackage[left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm]{geometry}
 \usepackage{hyperref}
+\usepackage{babel}
 \usepackage{csquotes}
 \usepackage{semesterplanner_edit}
 \usepackage{listings}
-\usepackage{ifthen}
 \newcommand{\cmd}[1]{$\backslash$\texttt{{#1}}}
 
 
@@ -13,7 +13,7 @@
 \author{Niklas Schneider}
 
 
-\begin{document}	
+\begin{document}
 	\maketitle
 	\begin{center}
 		Version 1.0\\
@@ -143,13 +143,13 @@
 	You can add two kind of checkboxes to your lists. 
 	\begin{itemize}
 		\item 
-		\cmd{none} does not show any checkboxes for items in that environment (instead of \cmd{none}) you can actually write everything except for the following two keywords).
+		\texttt{none} does not show any checkboxes for items in that environment (instead of \texttt{none}) you can actually write everything except for the following two keywords).
 		
 		\item
-		\cmd{print} creates squares you can tick on a printed version of your document: \checkbox{\printcheckboxcmd}
+		\texttt{print} creates squares you can tick on a printed version of your document: \checkbox{\printcheckboxcmd}
 		
 		\item
-		\cmd{click} creates clickable form checkboxes: \checkbox{\clickcheckboxcmd}
+		\texttt{click} creates clickable form checkboxes: \checkbox{\clickcheckboxcmd}
 		
 		
 	\end{itemize}
@@ -205,6 +205,34 @@
 		\end{tabular}
 	\end{center}
 
+	\pagebreak
+	\section{Localization}
+	The words displayed by this package are translated using the  \texttt{translators} package. 
+	
+	\subsection{Usage}
+	Begin your document with
+	\begin{lstlisting}[language=]
+\documentclass[<language>]{<class>}
+\usepackage{babel}
+	\end{lstlisting}	
+	in order to get the correct translatios.
+	
+	\subsection{Languages}
+	Currently supported languages are
+	\begin{itemize}
+		\item 
+		English
+		
+		\item
+		German
+		
+		\item
+		French
+	\end{itemize}
+
+	\subsection{Known issues}
+	When compiling with \emph{French} there is an error in the timetable. Everything else should work.
+	
 	\pagebreak
 	\section{Examples}
 	\subsection{Timetable}
