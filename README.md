@@ -26,6 +26,7 @@ This package requires color, tikz, schedule, ifthen and fontawesome. Furthermore
 
 # Contributors
 - cmplstofB - Japanese translation
+- rafaelpap - Spanish translation
 
 ## Repo and documentation
 See https://github.com/nlschn/semesterplanner
