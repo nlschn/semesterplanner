@@ -7,6 +7,9 @@ This package requires color, tikz, schedule, ifthen and fontawesome. Furthermore
 
 # Changelog
 
+### V 1.3
+- Translate the schedule-package; now weekdays in the schedule are also translated into the selected language.
+
 ### V 1.2.1
 - Add Japanese language (by cmplstofB)
 - Add Spanish language (by rafaelpap)

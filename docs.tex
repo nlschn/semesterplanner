@@ -6,6 +6,7 @@
 \usepackage{csquotes}
 \usepackage{semesterplanner}
 \usepackage{listings}
+%\usepackage{luatexja-fontspec}
 \newcommand{\cmd}[1]{$\backslash$\texttt{{#1}}}
 
 
@@ -16,7 +17,7 @@
 \begin{document}
 	\maketitle
 	\begin{center}
-		Version 1.2.1\\
+		Version 1.3\\
 	\end{center}
 
 	\begin{abstract}
@@ -140,10 +141,10 @@
 
 	\subsection{Checkboxes}
 	\label{checkboxes}
-	You can add two kind of checkboxes to your lists. 
+	You can add two kinds of checkboxes to your lists. 
 	\begin{itemize}
 		\item 
-		\texttt{none} does not show any checkboxes for items in that environment (instead of \texttt{none}) you can actually write everything except for the following two keywords).
+		\texttt{none} does not show any checkboxes for items in that environment. Instead of \texttt{none} you can actually write everything except for the following two keywords.
 		
 		\item
 		\texttt{print} creates squares you can tick on a printed version of your document: \checkbox{\printcheckboxcmd}
@@ -217,6 +218,12 @@
 	\end{lstlisting}	
 	in order to get the correct translatios.
 	
+	If you want to use Japanese translations make sure you include
+	\begin{lstlisting}[language=]
+\usepackage{luatexja-fontspec}
+	\end{lstlisting}
+	in your preamble.
+
 	\subsection{Languages}
 	Currently supported languages are
 	\begin{itemize}
@@ -238,6 +245,12 @@
 
 	\subsection{Known issues}
 	When compiling with \emph{French} there is an error in the timetable. Everything else should work.
+	
+	\pagebreak
+	\section{The rewritten \texttt{schedule}-package}
+	
+	
+	
 	
 	\pagebreak
 	\section{Examples}
