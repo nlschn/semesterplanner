@@ -3,9 +3,17 @@
 \ProvidesPackage{schedule}[2019/7/31 v1.20 schedule package]
 \RequirePackage{calc}
 \RequirePackage{xcolor}
+%%%%%%% The following line has been added
 \usepackage{translations}
 \definecolor{dark}{gray}{.75}
 
+
+%%%%% For more information of changes see the documentation of semesterplanner.
+
+%%%%% Comments and documentation have been removed.
+
+
+%%%%% Change to original work: These translations have been added.
 %%%%% LOCALIZATION
 %%%%% Fallback: English
 \DeclareTranslationFallback{Sunday}{Sunday}
@@ -60,6 +68,7 @@
 \DeclareTranslation{Japanese}{Thursday}{木曜日}
 \DeclareTranslation{Japanese}{Friday}{金曜日}
 \DeclareTranslation{Japanese}{Saturday}{土曜日}
+%%%%% End of modifiaction
 
 %
 % CONSTANTS FOR THE WEEK
@@ -194,6 +203,7 @@
                      \setlength{\adjusted@cell@height}{\cell@height - 1\line@thickness}}
 
 
+%%%%% Modification: Translation of weekdays have been added.
 \def\@Su@week{{\GetTranslation{Sunday}} {\GetTranslation{Monday}} {\GetTranslation{Tuesday}} {\GetTranslation{Wednesday}} {\GetTranslation{Thursday}} {\GetTranslation{Friday}} {\GetTranslation{Saturday}}}
 
 \def\@M@week{{\GetTranslation{Monday}} {\GetTranslation{Tuesday}} {\GetTranslation{Wednesday}} {\GetTranslation{Thursday}} {\GetTranslation{Friday}} {\GetTranslation{Saturday}} {\GetTranslation{Sunday}}}
@@ -207,7 +217,8 @@
 \def\@F@week{{\GetTranslation{Friday}} {\GetTranslation{Saturday}} {\GetTranslation{Sunday}} {\GetTranslation{Monday}} {\GetTranslation{Tuesday}} {\GetTranslation{Wednesday}} {\GetTranslation{Thursday}}}
 
 \def\@Sa@week{{\GetTranslation{Saturday}} {\GetTranslation{Sunday}} {\GetTranslation{Monday}} {\GetTranslation{Tuesday}} {\GetTranslation{Wednesday}} {\GetTranslation{Thursday}} {\GetTranslation{Friday}}}
-
+%%%%%% End of modification
+%%%%%% The rest of the file is unchanged to the original work.
 
 \def\BeginOn#1{\def\start@day{#1}}
 
