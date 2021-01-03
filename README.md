@@ -7,6 +7,10 @@ This package requires color, tikz, schedule, ifthen and fontawesome. Furthermore
 
 # Changelog
 
+### V 1.2.1
+- Add Japanese language (by cmplstofB)
+- Add Spanish language (by rafaelpap)
+
 ### V 1.2
 - Add localization support. At the moment english, french and german are provided, more languages are to come in the near future.
 
